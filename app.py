@@ -25,24 +25,6 @@ admin_password="admin123"
 admin1=hashlib.md5(admin_password.encode())
 admin123=admin1.hexdigest()
 
-#*********************** MOVIES **************************************
-cur=mysql.connection.cursor()
-c = cur.execute("SELECT * from Movie")
-if c==0:
-    cur.execute("INSERT INTO Movie(MovieName,year,image,language,imdb,category) VALUES (%s,%s,%s,%s,%s,%s)",
-                    ['Mrtav Ladan', '2019', 'https://m.media-amazon.com/images/M/MV5BMTk5NDc0MjU3Nl5BMl5BanBnXkFtZTcwNDc3NTU3OQ@@._V1_.jpg', 'srpski',
-            9.60, 'comedy, action'])
-    cur.execute("INSERT INTO Movie(MovieName,year,image,language,imdb,category) VALUES (%s,%s,%s,%s,%s,%s)",
-                    ['Barbie', '2023', 'https://upload.wikimedia.org/wikipedia/en/0/0b/Barbie_2023_poster.jpg', 'engleski', 5.40, 'comedy, drama'])
-    cur.execute("INSERT INTO Movie(MovieName,year,image,language,imdb,category) VALUES (%s,%s,%s,%s,%s,%s)",
-                    ['Pod zvijezdama Pariza', '2020', 'https://www.cineplexxpalas.ba/images/2023/06/21/_spmedia_thumbs/Pod-zvezdama-400x593.jpg', 'francuski', 8.50, 'comedy, action, drama'])
-    cur.execute("INSERT INTO Movie(MovieName,year,image,language,imdb,category) VALUES (%s,%s,%s,%s,%s,%s)",
-                    ['Anna', '2019', 'https://upload.wikimedia.org/wikipedia/en/thumb/f/f1/Anna_film_poster.jpg/220px-Anna_film_poster.jpg', 'engleski',8.70, 'action, thriller'])
-    cur.execute("INSERT INTO Movie(MovieName,year,image,language,imdb,category) VALUES (%s,%s,%s,%s,%s,%s)",
-                    ['Pakleni provod', '2023', 'https://www.cineplexxpalas.ba/images/2023/06/29/_spmedia_thumbs/Joy-ride-400x593.jpg', 'engleski', 7.80, 'comedy, action'])
-    mysql.connection.comit()
-    cur.close()
-
 @app.route('/login/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
@@ -206,6 +188,20 @@ def rate(name):
 def create_movie():
     if request.method == 'POST':
         cur = mysql.connection.cursor()
+        c = cur.execute("SELECT * from Movie")
+        if c==0:
+            cur.execute("INSERT INTO Movie(MovieName,year,image,language,imdb,category) VALUES (%s,%s,%s,%s,%s,%s)",
+                    ['Mrtav Ladan', '2019', 'https://m.media-amazon.com/images/M/MV5BMTk5NDc0MjU3Nl5BMl5BanBnXkFtZTcwNDc3NTU3OQ@@._V1_.jpg', 'srpski',
+            9.60, 'comedy, action'])
+            cur.execute("INSERT INTO Movie(MovieName,year,image,language,imdb,category) VALUES (%s,%s,%s,%s,%s,%s)",
+                    ['Barbie', '2023', 'https://upload.wikimedia.org/wikipedia/en/0/0b/Barbie_2023_poster.jpg', 'engleski', 5.40, 'comedy, drama'])
+            cur.execute("INSERT INTO Movie(MovieName,year,image,language,imdb,category) VALUES (%s,%s,%s,%s,%s,%s)",
+                    ['Pod zvijezdama Pariza', '2020', 'https://www.cineplexxpalas.ba/images/2023/06/21/_spmedia_thumbs/Pod-zvezdama-400x593.jpg', 'francuski', 8.50, 'comedy, action, drama'])
+            cur.execute("INSERT INTO Movie(MovieName,year,image,language,imdb,category) VALUES (%s,%s,%s,%s,%s,%s)",
+                    ['Anna', '2019', 'https://upload.wikimedia.org/wikipedia/en/thumb/f/f1/Anna_film_poster.jpg/220px-Anna_film_poster.jpg', 'engleski',8.70, 'action, thriller'])
+            cur.execute("INSERT INTO Movie(MovieName,year,image,language,imdb,category) VALUES (%s,%s,%s,%s,%s,%s)",
+                    ['Pakleni provod', '2023', 'https://www.cineplexxpalas.ba/images/2023/06/29/_spmedia_thumbs/Joy-ride-400x593.jpg', 'engleski', 7.80, 'comedy, action'])
+            mysql.connection.commit()
         name = request.form.get('name')
         year = request.form.get('year')
         image = request.form.get('image')
